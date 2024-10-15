@@ -221,5 +221,10 @@ func (k *ProviderAuth) verifyToken(token string) (bool, string, error) {
 	}
 	// log("(main) [INFO] IntrospectResponse check return values - introspectResponse[active]: %s - introspectResponse[UserClaimName]: %s", introspectResponse["active"].(string), introspectResponse[k.UserClaimName])
 	log("(main) [INFO] IntrospectResponse check return values")
-	return introspectResponse["active"].(bool), introspectResponse[k.UserClaimName].(string), nil
+	
+	name := introspectResponse[k.UserClaimName]
+	if name == nil {
+		name = ""
+	}
+	return introspectResponse["active"].(bool), name.(string), nil
 }
