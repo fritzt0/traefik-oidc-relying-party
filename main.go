@@ -172,7 +172,14 @@ func (k *ProviderAuth) redirectToProvider(rw http.ResponseWriter, req *http.Requ
 }
 
 func (k *ProviderAuth) verifyToken(token string) (bool, string, error) {
-	client := &http.Client{}
+	// create an http client with configurable options
+	// needed to skip certificate verification
+	tr := &http.Transport{
+		MaxIdleConns:    10,
+		IdleConnTimeout: 30 * time.Second,
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
 
 	data := url.Values{
 		"token": {token},
