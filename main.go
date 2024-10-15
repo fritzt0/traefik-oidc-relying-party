@@ -1,6 +1,7 @@
 package traefik_oidc_relying_party
 
 import (
+	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
